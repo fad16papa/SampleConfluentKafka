@@ -32,13 +32,16 @@ class Consumer
         using (var consumer = new ConsumerBuilder<string, string>(
             configuration.AsEnumerable()).Build())
         {
+            Partition partition = 0;
+            TopicPartition topicPartition = new TopicPartition(topic, partition);
+            consumer.Assign(topicPartition);
             consumer.Subscribe(topic);
             try
             {
                 while (true)
                 {
                     var cr = consumer.Consume(cts.Token);
-                    Console.WriteLine($"Consumed event from topic {topic} with key {cr.Message.Key,-10} and value {cr.Message.Value}");
+                    Console.WriteLine($"Consumed event from topic {topicPartition.Partition} with key {cr.Message.Key,-10} and value {cr.Message.Value}");
                 }
             }
             catch (OperationCanceledException)

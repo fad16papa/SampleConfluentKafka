@@ -2,7 +2,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 
-class Producer
+class StreamKafka
 {
     static void Main(string[] args)
     {
