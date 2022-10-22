@@ -11,17 +11,24 @@ class Producer
             Console.WriteLine("Please provide the configuration file path as a command line argument");
         }
 
-        IConfiguration configuration = new ConfigurationBuilder()
-            .AddIniFile(args[0])
-            .Build();
+        // IConfiguration configuration = new ConfigurationBuilder()
+        //     .AddIniFile(args[0])
+        //     .Build();
 
         const string topic = "purchases";
 
         string[] users = { "eabara", "jsmith", "sgarcia", "jbernard", "htanaka", "awalther" };
         string[] items = { "book", "alarm clock", "t-shirts", "gift card", "batteries" };
 
+        var producerConfig = new ProducerConfig()
+        {
+            BootstrapServers = "localhost:9092",
+            Acks = Acks.All,
+            RequestTimeoutMs = 1200000
+        };
+
         using (var producer = new ProducerBuilder<string, string>(
-            configuration.AsEnumerable()).Build())
+            producerConfig).Build())
         {
             var numProduced = 0;
             const int numMessages = 100;
