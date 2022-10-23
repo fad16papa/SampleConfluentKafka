@@ -24,7 +24,7 @@ class Producer
         {
             BootstrapServers = "localhost:9092",
             Acks = Acks.All,
-            RequestTimeoutMs = 1200000
+            RequestTimeoutMs = 900000
         };
 
         using (var producer = new ProducerBuilder<string, string>(
